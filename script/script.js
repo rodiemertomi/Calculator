@@ -2,6 +2,7 @@ class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
     this.previousOperandTextElement = previousOperandTextElement
     this.currentOperandTextElement = currentOperandTextElement
+    this.isEqual = false
     this.clear()
   }
 
@@ -16,6 +17,11 @@ class Calculator {
   }
 
   appendNumber(number) {
+    if (this.isEqual === true) {
+      this.currentOperand = ''
+      this.previousOperand = ''
+      this.isEqual = false
+    }
     if (number === '.' && this.currentOperand.includes('.')) return
     if (number === '.' && this.currentOperand === '') {
       this.currentOperand = `0${number}`
@@ -26,6 +32,7 @@ class Calculator {
   }
 
   chooseOperation(operation) {
+    this.isEqual = false
     if (this.currentOperand.includes('.')) {
       while (
         this.currentOperand.charAt(this.currentOperand.length - 1) === '0' ||
@@ -50,8 +57,14 @@ class Calculator {
   }
 
   compute() {
-    if (this.previousOperand === '') return
     let computedValue
+    if (this.previousOperand === '') return
+    if (this.currentOperand === '') {
+      this.currentOperand = this.previousOperand.toString().slice(0, -2)
+      this.previousOperand = ''
+      this.operation = undefined
+      return
+    }
     switch (this.operation) {
       case '+':
         computedValue = parseFloat(this.previousOperand) + parseFloat(this.currentOperand)
@@ -70,9 +83,13 @@ class Calculator {
     this.previousOperand = ''
     this.operation = undefined
   }
+
+  equals() {
+    this.isEqual = true
+  }
+
   updateDisplay() {
     this.currentOperandTextElement.innerText = this.currentOperand
-
     this.previousOperandTextElement.innerText = this.previousOperand
   }
 }
@@ -113,5 +130,6 @@ allClearButton.addEventListener('click', () => {
 
 equalsButton.addEventListener('click', () => {
   calculator.compute()
+  calculator.equals()
   calculator.updateDisplay()
 })
