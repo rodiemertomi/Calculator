@@ -22,11 +22,19 @@ class Calculator {
       return
     }
     if (number === '0' && this.currentOperand === '0') return
-    if (number === '0' && this.currentOperand.includes('.0')) return
+    // if (number === '0' && this.currentOperand.includes('.0')) return
     this.currentOperand = `${this.currentOperand}${number}`
   }
 
   chooseOperation(operation) {
+    if (this.currentOperand.includes('.')) {
+      while (
+        this.currentOperand.charAt(this.currentOperand.length - 1) === '0' ||
+        this.currentOperand.charAt(this.currentOperand.length - 1) === '.'
+      ) {
+        this.currentOperand = this.currentOperand.toString().slice(0, -1)
+      }
+    }
     if (this.currentOperand === '' && this.operation) {
       this.operation = undefined
       this.operation = operation
@@ -65,6 +73,7 @@ class Calculator {
   }
   updateDisplay() {
     this.currentOperandTextElement.innerText = this.currentOperand
+
     this.previousOperandTextElement.innerText = this.previousOperand
   }
 }
