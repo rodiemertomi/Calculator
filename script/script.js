@@ -22,7 +22,6 @@ class Calculator {
       return
     }
     if (number === '0' && this.currentOperand === '0') return
-    // if (number === '0' && this.currentOperand.includes('.0')) return
     this.currentOperand = `${this.currentOperand}${number}`
   }
 
