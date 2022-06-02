@@ -4,6 +4,16 @@
   padding: 0;
 }
 
+html {
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(245, 245, 245),
+    rgb(168, 168, 168),
+    rgb(91, 91, 91),
+    rgb(14, 14, 14)
+  );
+}
+
 .calculator-grid {
   display: grid;
   justify-content: center;
